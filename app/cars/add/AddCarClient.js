@@ -4,46 +4,55 @@ import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { useSession } from 'next-auth/react';
 
-// Default form data
-const defaultFormData = {
-  make: '',
-  model: '',
-  year: '',
-  price: '',
-  mileage: '',
-  location: '',
-  fuelType: 'Petrol',
-  transmission: 'Manual',
-  description: '',
-  features: '',
-};
+// Prevent any initialization during SSR
+const ClientOnly = ({ children }) => {
+  const [hasMounted, setHasMounted] = useState(false);
 
-// Client-side only component
-export default function AddCarClient() {
-  // Ensure we're in the browser
-  if (typeof window === 'undefined') {
+  useEffect(() => {
+    setHasMounted(true);
+  }, []);
+
+  if (!hasMounted) {
     return null;
   }
 
+  return children;
+};
+
+export default function AddCarClient() {
+  return (
+    <ClientOnly>
+      <AddCarForm />
+    </ClientOnly>
+  );
+}
+
+function AddCarForm() {
   const router = useRouter();
   const { data: session, status } = useSession();
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [error, setError] = useState('');
   const [imageUrls, setImageUrls] = useState(['']);
-  const [formData, setFormData] = useState(defaultFormData);
-  const [isMounted, setIsMounted] = useState(false);
+  const [formData, setFormData] = useState({
+    make: '',
+    model: '',
+    year: '',
+    price: '',
+    mileage: '',
+    location: '',
+    fuelType: 'Petrol',
+    transmission: 'Manual',
+    description: '',
+    features: '',
+  });
 
   useEffect(() => {
-    setIsMounted(true);
-  }, []);
-
-  useEffect(() => {
-    if (isMounted && status === 'unauthenticated') {
+    if (status === 'unauthenticated') {
       router.replace('/auth/signin');
     }
-  }, [status, router, isMounted]);
+  }, [status, router]);
 
-  if (!isMounted || status === 'loading') {
+  if (status === 'loading') {
     return (
       <div className="flex justify-center items-center min-h-screen">
         <div className="animate-spin rounded-full h-32 w-32 border-t-2 border-b-2 border-gray-900"></div>
