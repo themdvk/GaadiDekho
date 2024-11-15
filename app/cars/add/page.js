@@ -1,12 +1,12 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { useSession } from 'next-auth/react';
 
 export default function AddCar() {
   const router = useRouter();
-  const { data: session } = useSession();
+  const { data: session, status } = useSession();
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [error, setError] = useState('');
   const [imageUrls, setImageUrls] = useState(['']); // Start with one empty URL field
@@ -24,8 +24,21 @@ export default function AddCar() {
     features: '',
   });
 
-  if (!session) {
-    router.push('/auth/signin');
+  useEffect(() => {
+    if (status === 'unauthenticated') {
+      router.push('/auth/signin');
+    }
+  }, [status, router]);
+
+  if (status === 'loading') {
+    return (
+      <div className="flex justify-center items-center min-h-screen">
+        <div className="animate-spin rounded-full h-32 w-32 border-t-2 border-b-2 border-gray-900"></div>
+      </div>
+    );
+  }
+
+  if (status === 'unauthenticated') {
     return null;
   }
 
@@ -35,7 +48,7 @@ export default function AddCar() {
     setError('');
 
     // Filter out empty URLs
-    const validImageUrls = imageUrls.filter(url => url.trim() !== '');
+    const validImageUrls = imageUrls.filter((url) => url.trim() !== '');
 
     try {
       const response = await fetch('/api/cars', {
@@ -103,7 +116,10 @@ export default function AddCar() {
             <form onSubmit={handleSubmit} className="space-y-6">
               <div className="grid grid-cols-1 gap-y-6 gap-x-4 sm:grid-cols-2">
                 <div>
-                  <label htmlFor="make" className="block text-sm font-medium text-gray-700">
+                  <label
+                    htmlFor="make"
+                    className="block text-sm font-medium text-gray-700"
+                  >
                     Make
                   </label>
                   <input
@@ -118,7 +134,10 @@ export default function AddCar() {
                 </div>
 
                 <div>
-                  <label htmlFor="model" className="block text-sm font-medium text-gray-700">
+                  <label
+                    htmlFor="model"
+                    className="block text-sm font-medium text-gray-700"
+                  >
                     Model
                   </label>
                   <input
@@ -133,7 +152,10 @@ export default function AddCar() {
                 </div>
 
                 <div>
-                  <label htmlFor="year" className="block text-sm font-medium text-gray-700">
+                  <label
+                    htmlFor="year"
+                    className="block text-sm font-medium text-gray-700"
+                  >
                     Year
                   </label>
                   <input
@@ -150,7 +172,10 @@ export default function AddCar() {
                 </div>
 
                 <div>
-                  <label htmlFor="price" className="block text-sm font-medium text-gray-700">
+                  <label
+                    htmlFor="price"
+                    className="block text-sm font-medium text-gray-700"
+                  >
                     Price (₹)
                   </label>
                   <input
@@ -166,7 +191,10 @@ export default function AddCar() {
                 </div>
 
                 <div>
-                  <label htmlFor="mileage" className="block text-sm font-medium text-gray-700">
+                  <label
+                    htmlFor="mileage"
+                    className="block text-sm font-medium text-gray-700"
+                  >
                     Mileage (km)
                   </label>
                   <input
@@ -182,7 +210,10 @@ export default function AddCar() {
                 </div>
 
                 <div>
-                  <label htmlFor="location" className="block text-sm font-medium text-gray-700">
+                  <label
+                    htmlFor="location"
+                    className="block text-sm font-medium text-gray-700"
+                  >
                     Location
                   </label>
                   <input
@@ -197,7 +228,10 @@ export default function AddCar() {
                 </div>
 
                 <div>
-                  <label htmlFor="fuelType" className="block text-sm font-medium text-gray-700">
+                  <label
+                    htmlFor="fuelType"
+                    className="block text-sm font-medium text-gray-700"
+                  >
                     Fuel Type
                   </label>
                   <select
@@ -217,7 +251,10 @@ export default function AddCar() {
                 </div>
 
                 <div>
-                  <label htmlFor="transmission" className="block text-sm font-medium text-gray-700">
+                  <label
+                    htmlFor="transmission"
+                    className="block text-sm font-medium text-gray-700"
+                  >
                     Transmission
                   </label>
                   <select
@@ -235,7 +272,10 @@ export default function AddCar() {
               </div>
 
               <div>
-                <label htmlFor="description" className="block text-sm font-medium text-gray-700">
+                <label
+                  htmlFor="description"
+                  className="block text-sm font-medium text-gray-700"
+                >
                   Description
                 </label>
                 <textarea
@@ -251,7 +291,10 @@ export default function AddCar() {
               </div>
 
               <div>
-                <label htmlFor="features" className="block text-sm font-medium text-gray-700">
+                <label
+                  htmlFor="features"
+                  className="block text-sm font-medium text-gray-700"
+                >
                   Features
                 </label>
                 <textarea
@@ -295,8 +338,18 @@ export default function AddCar() {
                           onClick={() => removeImageUrl(index)}
                           className="inline-flex items-center p-2 border border-transparent rounded-md text-red-600 bg-red-100 hover:bg-red-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500"
                         >
-                          <svg className="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                          <svg
+                            className="h-5 w-5"
+                            fill="none"
+                            stroke="currentColor"
+                            viewBox="0 0 24 24"
+                          >
+                            <path
+                              strokeLinecap="round"
+                              strokeLinejoin="round"
+                              strokeWidth={2}
+                              d="M6 18L18 6M6 6l12 12"
+                            />
                           </svg>
                         </button>
                       )}
