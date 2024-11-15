@@ -120,8 +120,8 @@ export default function CarDetailsClient({ car, session }) {
                 <h2 className="text-lg font-semibold text-gray-900">Details</h2>
                 <dl className="mt-2 space-y-2">
                   <div>
-                    <dt className="text-sm font-medium text-gray-500">Location</dt>
-                    <dd className="text-sm text-gray-900">{car.location}</dd>
+                    <dt className="text-sm font-medium text-gray-500">Place</dt>
+                    <dd className="text-sm text-gray-900">{car.place}</dd>
                   </div>
                   <div>
                     <dt className="text-sm font-medium text-gray-500">Mileage</dt>
