@@ -95,7 +95,7 @@ export default async function Home() {
                 </div>
                 <div className="mt-4 flex justify-between items-center">
                   <div className="text-sm text-gray-500">
-                    <span>{car.location}</span>
+                    <span>{car.place}</span>
                   </div>
                   <ProtectedLink
                     href={`/cars/${car.id}`}

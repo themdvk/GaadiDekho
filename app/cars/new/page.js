@@ -31,7 +31,7 @@ export default function NewCarPage() {
       mileage: parseInt(formData.get('mileage')),
       fuelType: formData.get('fuelType'),
       transmission: formData.get('transmission'),
-      location: formData.get('location'),
+      place: formData.get('place'),
       images: imageUrls.filter(url => url.trim() !== ''),
       tags: tags.filter(tag => tag.trim() !== ''),
     };
@@ -211,13 +211,13 @@ export default function NewCarPage() {
           </div>
 
           <div>
-            <label htmlFor="location" className="block text-sm font-medium text-gray-700">
-              Location
+            <label htmlFor="place" className="block text-sm font-medium text-gray-700">
+              Place
             </label>
             <input
               type="text"
-              name="location"
-              id="location"
+              name="place"
+              id="place"
               required
               className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
             />

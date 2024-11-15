@@ -16,7 +16,7 @@ export default function EditCar() {
     title: '',
     description: '',
     price: '',
-    location: '',
+    place: '',
     brand: '',
     model: '',
     year: '',
@@ -229,11 +229,11 @@ export default function EditCar() {
             </div>
 
             <div className="col-span-2">
-              <label className="block text-sm font-medium text-gray-700">Location</label>
+              <label className="block text-sm font-medium text-gray-700">Place</label>
               <input
                 type="text"
-                name="location"
-                value={formData.location}
+                name="place"
+                value={formData.place}
                 onChange={handleChange}
                 required
                 className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-red-500 focus:ring-red-500"

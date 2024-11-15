@@ -34,7 +34,7 @@ model Car {
   mileage      Int
   fuelType     String
   transmission String
-  location     String
+  place        String?
   user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
   userId       String
   createdAt    DateTime @default(now())
