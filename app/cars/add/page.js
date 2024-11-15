@@ -385,16 +385,18 @@ function AddCarForm() {
   );
 }
 
-export default function AddCar() {
-  const [isClient, setIsClient] = useState(false);
+import dynamic from 'next/dynamic'
 
-  useEffect(() => {
-    setIsClient(true);
-  }, []);
+// Dynamically import the client component with no SSR
+const AddCarClient = dynamic(
+  () => import('./AddCarClient'),
+  { ssr: false }
+)
 
-  if (!isClient) {
-    return null;
-  }
-
-  return <AddCarForm />;
+export default function AddCarPage() {
+  return (
+    <div id="add-car-root">
+      <AddCarClient />
+    </div>
+  );
 }

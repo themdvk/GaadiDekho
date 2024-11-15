@@ -7,24 +7,15 @@ const nextConfig = {
   experimental: {
     serverActions: true,
   },
-  // Disable static optimization for specific routes
-  unstable_runtimeJS: true,
-  unstable_JsPreload: true,
-  pageExtensions: ['js', 'jsx'],
-  // Disable static optimization for /cars/add route
-  async headers() {
-    return [
-      {
-        source: '/cars/add',
-        headers: [
-          {
-            key: 'x-middleware-cache',
-            value: 'no-cache',
-          },
-        ],
-      },
-    ]
+  // Disable static optimization for dynamic routes
+  staticPageGenerationTimeout: 1000,
+  compiler: {
+    removeConsole: true,
   },
+  // Optimize production build
+  swcMinify: true,
+  reactStrictMode: true,
+  poweredByHeader: false,
 }
 
 module.exports = nextConfig
