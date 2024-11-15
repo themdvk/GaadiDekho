@@ -385,16 +385,10 @@ function AddCarForm() {
   );
 }
 
-import dynamic from 'next/dynamic'
-import LoadingShell from './loading-shell'
+import ClientPage from './client-page';
 
-export const dynamic = 'force-dynamic'
-
-const ClientEntry = dynamic(() => import('./client-entry'), { 
-  ssr: false,
-  loading: LoadingShell
-})
+export const dynamic = 'force-dynamic';
 
 export default function AddCarPage() {
-  return <ClientEntry />
+  return <ClientPage />;
 }
