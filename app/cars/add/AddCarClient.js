@@ -4,30 +4,7 @@ import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { useSession } from 'next-auth/react';
 
-// Prevent any initialization during SSR
-const ClientOnly = ({ children }) => {
-  const [hasMounted, setHasMounted] = useState(false);
-
-  useEffect(() => {
-    setHasMounted(true);
-  }, []);
-
-  if (!hasMounted) {
-    return null;
-  }
-
-  return children;
-};
-
 export default function AddCarClient() {
-  return (
-    <ClientOnly>
-      <AddCarForm />
-    </ClientOnly>
-  );
-}
-
-function AddCarForm() {
   const router = useRouter();
   const { data: session, status } = useSession();
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -36,7 +13,7 @@ function AddCarForm() {
   const [formData, setFormData] = useState({
     make: '',
     model: '',
-    year: '',
+    year: new Date().getFullYear(),
     price: '',
     mileage: '',
     location: '',
@@ -217,13 +194,14 @@ function AddCarForm() {
 
               <div>
                 <label htmlFor="location" className="block text-sm font-medium text-gray-700">
-                  Location
+                  City
                 </label>
                 <input
                   type="text"
                   name="location"
                   id="location"
                   required
+                  placeholder="e.g., Mumbai, Delhi"
                   value={formData.location}
                   onChange={handleInputChange}
                   className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-red-500 focus:border-red-500"
