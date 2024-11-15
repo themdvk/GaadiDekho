@@ -6,10 +6,11 @@ const nextConfig = {
   },
   experimental: {
     serverActions: true,
+    forceSwcTransforms: true,
   },
   // Optimize for dynamic routes
   reactStrictMode: true,
-  swcMinify: true,
+  swcMinify: false, // Temporarily disabled to resolve deployment issues
   compiler: {
     removeConsole: process.env.NODE_ENV === 'production',
   },
