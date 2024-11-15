@@ -386,10 +386,16 @@ function AddCarForm() {
 }
 
 import dynamic from 'next/dynamic'
+import Loading from './loading'
 
+// Import client component with no SSR
 const AddCarClient = dynamic(() => import('./AddCarClient'), {
   ssr: false,
+  loading: () => <Loading />
 })
+
+export const dynamic = 'force-dynamic'
+export const revalidate = 0
 
 export default function AddCarPage() {
   return <AddCarClient />

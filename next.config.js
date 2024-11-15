@@ -7,7 +7,7 @@ const nextConfig = {
   experimental: {
     serverActions: true,
   },
-  // Optimize for client-side rendering
+  // Optimize for dynamic routes
   reactStrictMode: true,
   swcMinify: true,
   compiler: {
@@ -15,6 +15,20 @@ const nextConfig = {
   },
   // Disable powered by header for security
   poweredByHeader: false,
+  // Configure dynamic routes
+  async headers() {
+    return [
+      {
+        source: '/cars/add',
+        headers: [
+          {
+            key: 'Cache-Control',
+            value: 'no-store, must-revalidate',
+          },
+        ],
+      },
+    ]
+  },
 }
 
 module.exports = nextConfig

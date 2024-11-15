@@ -4,6 +4,7 @@ import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { useSession } from 'next-auth/react';
 
+// Default form data
 const defaultFormData = {
   make: '',
   model: '',
@@ -17,21 +18,32 @@ const defaultFormData = {
   features: '',
 };
 
+// Client-side only component
 export default function AddCarClient() {
+  // Ensure we're in the browser
+  if (typeof window === 'undefined') {
+    return null;
+  }
+
   const router = useRouter();
   const { data: session, status } = useSession();
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [error, setError] = useState('');
   const [imageUrls, setImageUrls] = useState(['']);
   const [formData, setFormData] = useState(defaultFormData);
+  const [isMounted, setIsMounted] = useState(false);
 
   useEffect(() => {
-    if (typeof window !== 'undefined' && status === 'unauthenticated') {
+    setIsMounted(true);
+  }, []);
+
+  useEffect(() => {
+    if (isMounted && status === 'unauthenticated') {
       router.replace('/auth/signin');
     }
-  }, [status, router]);
+  }, [status, router, isMounted]);
 
-  if (status === 'loading') {
+  if (!isMounted || status === 'loading') {
     return (
       <div className="flex justify-center items-center min-h-screen">
         <div className="animate-spin rounded-full h-32 w-32 border-t-2 border-b-2 border-gray-900"></div>
@@ -68,9 +80,7 @@ export default function AddCarClient() {
       }
 
       const data = await response.json();
-      if (typeof window !== 'undefined') {
-        router.push('/cars/' + data.id);
-      }
+      router.push('/cars/' + data.id);
     } catch (err) {
       setError(err.message);
     } finally {
