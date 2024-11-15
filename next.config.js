@@ -7,14 +7,13 @@ const nextConfig = {
   experimental: {
     serverActions: true,
   },
-  // Disable static optimization for dynamic routes
-  staticPageGenerationTimeout: 1000,
-  compiler: {
-    removeConsole: true,
-  },
-  // Optimize production build
-  swcMinify: true,
+  // Optimize for client-side rendering
   reactStrictMode: true,
+  swcMinify: true,
+  compiler: {
+    removeConsole: process.env.NODE_ENV === 'production',
+  },
+  // Disable powered by header for security
   poweredByHeader: false,
 }
 
