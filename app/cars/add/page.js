@@ -64,7 +64,7 @@ export default function AddCarPage() {
     try {
       const filteredImageUrls = imageUrls.filter(url => url.trim() !== '')
       
-      const response = await fetch('/api/cars', {
+      const response = await fetch('/api/cars/create', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
