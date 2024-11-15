@@ -3,6 +3,7 @@
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { useSession } from 'next-auth/react';
+import ClientPage from './client-page';
 
 // Prevent static generation
 export const dynamic = 'force-dynamic';
@@ -384,10 +385,6 @@ function AddCarForm() {
     </div>
   );
 }
-
-import ClientPage from './client-page';
-
-export const dynamic = 'force-dynamic';
 
 export default function AddCarPage() {
   return <ClientPage />;
