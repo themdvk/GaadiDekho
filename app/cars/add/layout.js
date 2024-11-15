@@ -7,5 +7,5 @@ export default function AddCarLayout({ children }) {
         </div>
       </div>
     </div>
-  )
+  );
 }

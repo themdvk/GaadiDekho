@@ -3,12 +3,18 @@
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { useSession } from 'next-auth/react';
-import ClientPage from './client-page';
+import dynamic from 'next/dynamic';
+import LoadingUI from './loading-ui';
 
 // Prevent static generation
 export const dynamic = 'force-dynamic';
 export const fetchCache = 'force-no-store';
 export const revalidate = 0;
+
+const ClientWrapper = dynamic(() => import('./client-wrapper'), {
+  ssr: false,
+  loading: () => <LoadingUI />
+});
 
 function AddCarForm() {
   const router = useRouter();
@@ -386,6 +392,20 @@ function AddCarForm() {
   );
 }
 
+const AddCarClient = dynamic(() => import('./AddCarClient'), {
+  ssr: false
+});
+
 export default function AddCarPage() {
-  return <ClientPage />;
+  return (
+    <>
+      <div className="mb-8">
+        <h2 className="text-2xl font-bold text-gray-900">Add New Car</h2>
+        <p className="mt-1 text-sm text-gray-600">
+          Fill in the details below to list your car for sale.
+        </p>
+      </div>
+      <AddCarClient />
+    </>
+  );
 }
