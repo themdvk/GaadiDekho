@@ -1,3 +1,10 @@
+export const dynamic = 'force-dynamic'
+export const dynamicParams = true
+export const revalidate = 0
+export const fetchCache = 'force-no-store'
+export const runtime = 'nodejs'
+export const preferredRegion = 'auto'
+
 'use client';
 
 import { useState, useEffect } from 'react';
@@ -5,11 +12,6 @@ import { useRouter } from 'next/navigation';
 import { useSession } from 'next-auth/react';
 import dynamic from 'next/dynamic';
 import LoadingUI from './loading-ui';
-
-// Prevent static generation
-export const dynamic = 'force-dynamic';
-export const fetchCache = 'force-no-store';
-export const revalidate = 0;
 
 const ClientWrapper = dynamic(() => import('./client-wrapper'), {
   ssr: false,
