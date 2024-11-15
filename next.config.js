@@ -6,11 +6,10 @@ const nextConfig = {
   },
   experimental: {
     serverActions: true,
-    forceSwcTransforms: true,
   },
   // Optimize for dynamic routes
   reactStrictMode: true,
-  swcMinify: false, // Temporarily disabled to resolve deployment issues
+  swcMinify: false,
   compiler: {
     removeConsole: process.env.NODE_ENV === 'production',
   },
@@ -29,7 +28,7 @@ const nextConfig = {
         ],
       },
     ]
-  },
+  }
 }
 
 module.exports = nextConfig
