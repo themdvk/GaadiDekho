@@ -14,6 +14,7 @@ function AddCarForm() {
   const { data: session, status } = useSession();
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [error, setError] = useState('');
+  const [mounted, setMounted] = useState(false);
   const [imageUrls, setImageUrls] = useState(['']); // Start with one empty URL field
 
   const [formData, setFormData] = useState({
@@ -30,12 +31,13 @@ function AddCarForm() {
   });
 
   useEffect(() => {
+    setMounted(true);
     if (status === 'unauthenticated') {
       router.replace('/auth/signin');
     }
   }, [status, router]);
 
-  if (status === 'loading') {
+  if (!mounted || status === 'loading') {
     return (
       <div className="flex justify-center items-center min-h-screen">
         <div className="animate-spin rounded-full h-32 w-32 border-t-2 border-b-2 border-gray-900"></div>
@@ -384,9 +386,15 @@ function AddCarForm() {
 }
 
 export default function AddCar() {
-  return (
-    <div suppressHydrationWarning>
-      {typeof window !== 'undefined' && <AddCarForm />}
-    </div>
-  );
+  const [isClient, setIsClient] = useState(false);
+
+  useEffect(() => {
+    setIsClient(true);
+  }, []);
+
+  if (!isClient) {
+    return null;
+  }
+
+  return <AddCarForm />;
 }
