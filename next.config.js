@@ -4,12 +4,8 @@ const nextConfig = {
   images: {
     domains: ['images.unsplash.com', 'via.placeholder.com'],
   },
-  experimental: {
-    serverActions: true,
-  },
   // Optimize for dynamic routes
   reactStrictMode: true,
-  swcMinify: false,
   compiler: {
     removeConsole: process.env.NODE_ENV === 'production',
   },
@@ -19,16 +15,24 @@ const nextConfig = {
   async headers() {
     return [
       {
-        source: '/cars/add',
+        source: '/:path*',
         headers: [
           {
-            key: 'Cache-Control',
-            value: 'no-store, must-revalidate',
+            key: 'X-Frame-Options',
+            value: 'DENY',
+          },
+          {
+            key: 'X-Content-Type-Options',
+            value: 'nosniff',
+          },
+          {
+            key: 'X-XSS-Protection',
+            value: '1; mode=block',
           },
         ],
       },
     ]
-  }
+  },
 }
 
 module.exports = nextConfig
