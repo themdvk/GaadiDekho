@@ -10,7 +10,7 @@ const poppins = Poppins({
 
 export const metadata = {
   title: "Gaadi Dekho - Buy and Sell Cars",
-  description: "India's most trusted car marketplace",
+  description: "India&apos;s most trusted car marketplace",
 };
 
 export default function RootLayout({ children }) {
@@ -27,7 +27,7 @@ export default function RootLayout({ children }) {
               <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
                 <div>
                   <h3 className="text-xl font-bold mb-4">Gaadi Dekho</h3>
-                  <p className="text-gray-400">India's most trusted car marketplace</p>
+                  <p className="text-gray-400">India&apos;s most trusted car marketplace</p>
                 </div>
                 <div>
                   <h4 className="text-lg font-semibold mb-4">Quick Links</h4>

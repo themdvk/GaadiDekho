@@ -1,4 +1,5 @@
 import Link from 'next/link';
+import Image from 'next/image';
 import prisma from '@/lib/prisma';
 import ProtectedLink from './components/ProtectedLink';
 
@@ -23,10 +24,13 @@ export default async function Home() {
       {/* Hero section */}
       <div className="relative bg-gray-900">
         <div className="absolute inset-0">
-          <img
+          <Image
             className="w-full h-full object-cover"
             src="https://images.unsplash.com/photo-1492144534655-ae79c964c9d7?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1920&q=80"
             alt="Hero background"
+            fill
+            priority
+            sizes="100vw"
           />
           <div className="absolute inset-0 bg-gray-900 opacity-75"></div>
         </div>
@@ -72,10 +76,12 @@ export default async function Home() {
           {latestCars.map((car) => (
             <div key={car.id} className="group relative bg-white rounded-lg shadow-lg overflow-hidden hover:shadow-xl transition-shadow duration-300">
               <div className="relative h-48">
-                <img
+                <Image
                   src={car.images[0] || 'https://via.placeholder.com/400x300?text=No+Image'}
                   alt={car.title}
-                  className="w-full h-full object-cover"
+                  fill
+                  className="object-cover"
+                  sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
                 />
                 <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black to-transparent p-4">
                   <h3 className="text-lg font-semibold text-white">{car.title}</h3>
