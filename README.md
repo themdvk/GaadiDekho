@@ -1,36 +1,140 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# 🚗 Gaadi Dekho - Car Marketplace
 
-## Getting Started
+Gaadi Dekho is a modern car marketplace platform built with Next.js, where users can browse, buy, and sell cars with ease. The platform features a clean, intuitive interface and robust authentication system.
 
-First, run the development server:
+![Gaadi Dekho Screenshot](public/screenshot.png)
 
+## ✨ Features
+
+- 🔐 **Secure Authentication**
+  - Google OAuth integration
+  - Protected routes and API endpoints
+  - Role-based access control
+
+- 🚙 **Car Listings**
+  - Browse all available cars
+  - Detailed car information pages
+  - Image gallery with multiple photos
+  - Advanced filtering and search
+
+- 📝 **User Features**
+  - Create and manage car listings
+  - Edit and delete own listings
+  - Contact sellers (authenticated users only)
+
+- 💻 **Modern UI/UX**
+  - Responsive design
+  - Mobile-friendly interface
+  - Clean and intuitive navigation
+  - Real-time updates
+
+## 🛠️ Tech Stack
+
+- **Frontend**
+  - Next.js 14 (App Router)
+  - React
+  - Tailwind CSS
+  - NextAuth.js
+
+- **Backend**
+  - Next.js API Routes
+  - Prisma ORM
+  - PostgreSQL
+  - Google OAuth
+
+- **Deployment**
+  - Vercel
+  - PostgreSQL (Production Database)
+
+## 🚀 Getting Started
+
+### Prerequisites
+
+- Node.js 18+ 
+- npm or yarn
+- PostgreSQL database
+
+### Environment Variables
+
+Create a `.env` file in the root directory:
+
+```env
+DATABASE_URL="your_postgresql_database_url"
+NEXTAUTH_URL="http://localhost:3000"
+NEXTAUTH_SECRET="your_nextauth_secret"
+GOOGLE_ID="your_google_client_id"
+GOOGLE_SECRET="your_google_client_secret"
+```
+
+### Installation
+
+1. Clone the repository
+```bash
+git clone https://github.com/yourusername/gaadi-dekho.git
+cd gaadi-dekho
+```
+
+2. Install dependencies
+```bash
+npm install
+# or
+yarn install
+```
+
+3. Set up the database
+```bash
+npx prisma generate
+npx prisma db push
+```
+
+4. Start the development server
 ```bash
 npm run dev
 # or
 yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Open [http://localhost:3000](http://localhost:3000) to view the application.
 
-You can start editing the page by modifying `app/page.js`. The page auto-updates as you edit the file.
+## 📱 API Routes
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+Visit [/routes](http://localhost:3000/routes) in the application to view detailed API documentation.
 
-## Learn More
+Key endpoints:
+- `GET /api/cars` - List all cars
+- `POST /api/cars` - Create new car listing (authenticated)
+- `GET /api/cars/[id]` - Get specific car details
+- `PUT /api/cars/[id]` - Update car listing (owner only)
+- `DELETE /api/cars/[id]` - Delete car listing (owner only)
 
-To learn more about Next.js, take a look at the following resources:
+## 🔧 Scripts
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+- `npm run dev` - Start development server
+- `npm run build` - Build for production
+- `npm start` - Start production server
+- `npm run lint` - Run ESLint
+- `npm run close-ports` - Close development ports (3000-3002)
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## 🌟 Contributing
 
-## Deploy on Vercel
+1. Fork the repository
+2. Create your feature branch (`git checkout -b feature/AmazingFeature`)
+3. Commit your changes (`git commit -m 'Add some AmazingFeature'`)
+4. Push to the branch (`git push origin feature/AmazingFeature`)
+5. Open a Pull Request
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+## 📄 License
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+
+## 👥 Authors
+
+- Your Name - Initial work - [GitHub Profile](https://github.com/yourusername)
+
+## 🙏 Acknowledgments
+
+- [Next.js](https://nextjs.org/)
+- [Tailwind CSS](https://tailwindcss.com/)
+- [Prisma](https://www.prisma.io/)
+- [NextAuth.js](https://next-auth.js.org/)
+- [Vercel](https://vercel.com)
