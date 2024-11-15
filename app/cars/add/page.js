@@ -4,7 +4,12 @@ import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { useSession } from 'next-auth/react';
 
-export default function AddCar() {
+// Prevent static generation
+export const dynamic = 'force-dynamic';
+export const fetchCache = 'force-no-store';
+export const revalidate = 0;
+
+function AddCarForm() {
   const router = useRouter();
   const { data: session, status } = useSession();
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -26,7 +31,7 @@ export default function AddCar() {
 
   useEffect(() => {
     if (status === 'unauthenticated') {
-      router.push('/auth/signin');
+      router.replace('/auth/signin');
     }
   }, [status, router]);
 
@@ -374,6 +379,14 @@ export default function AddCar() {
           </div>
         </div>
       </div>
+    </div>
+  );
+}
+
+export default function AddCar() {
+  return (
+    <div suppressHydrationWarning>
+      {typeof window !== 'undefined' && <AddCarForm />}
     </div>
   );
 }
