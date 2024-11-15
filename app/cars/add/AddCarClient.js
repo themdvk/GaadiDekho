@@ -4,28 +4,29 @@ import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { useSession } from 'next-auth/react';
 
+const defaultFormData = {
+  make: '',
+  model: '',
+  year: '',
+  price: '',
+  mileage: '',
+  location: '',
+  fuelType: 'Petrol',
+  transmission: 'Manual',
+  description: '',
+  features: '',
+};
+
 export default function AddCarClient() {
   const router = useRouter();
   const { data: session, status } = useSession();
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [error, setError] = useState('');
   const [imageUrls, setImageUrls] = useState(['']);
-
-  const [formData, setFormData] = useState({
-    make: '',
-    model: '',
-    year: new Date().getFullYear(),
-    price: '',
-    mileage: '',
-    location: '',
-    fuelType: 'Petrol',
-    transmission: 'Manual',
-    description: '',
-    features: '',
-  });
+  const [formData, setFormData] = useState(defaultFormData);
 
   useEffect(() => {
-    if (status === 'unauthenticated') {
+    if (typeof window !== 'undefined' && status === 'unauthenticated') {
       router.replace('/auth/signin');
     }
   }, [status, router]);
@@ -57,7 +58,7 @@ export default function AddCarClient() {
         },
         body: JSON.stringify({
           ...formData,
-          userId: session.user.id,
+          userId: session?.user?.id,
           images: validImageUrls,
         }),
       });
@@ -67,7 +68,9 @@ export default function AddCarClient() {
       }
 
       const data = await response.json();
-      router.push('/cars/' + data.id);
+      if (typeof window !== 'undefined') {
+        router.push('/cars/' + data.id);
+      }
     } catch (err) {
       setError(err.message);
     } finally {
@@ -258,67 +261,62 @@ export default function AddCarClient() {
                 value={formData.description}
                 onChange={handleInputChange}
                 className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-red-500 focus:border-red-500"
-                placeholder="Provide detailed information about your car..."
               />
             </div>
 
             <div>
               <label htmlFor="features" className="block text-sm font-medium text-gray-700">
-                Features
+                Features (comma-separated)
               </label>
               <textarea
                 name="features"
                 id="features"
-                rows={4}
-                required
+                rows={2}
                 value={formData.features}
                 onChange={handleInputChange}
                 className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-red-500 focus:border-red-500"
-                placeholder="List the key features of your car..."
+                placeholder="e.g., Air Conditioning, Power Steering, ABS"
               />
             </div>
 
             <div>
-              <label className="block text-sm font-medium text-gray-700">Images</label>
-              <p className="mt-1 text-sm text-gray-500">Add URLs for your car images.</p>
-              <div className="mt-2 space-y-4">
-                {imageUrls.map((url, index) => (
-                  <div key={index} className="flex gap-4">
-                    <input
-                      type="url"
-                      value={url}
-                      onChange={(e) => handleImageUrlChange(index, e.target.value)}
-                      placeholder="Enter image URL"
-                      className="flex-1 border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-red-500 focus:border-red-500"
-                    />
-                    {index > 0 && (
-                      <button
-                        type="button"
-                        onClick={() => removeImageUrl(index)}
-                        className="inline-flex items-center p-2 border border-transparent rounded-md text-red-600 bg-red-100 hover:bg-red-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500"
-                      >
-                        <svg className="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
-                        </svg>
-                      </button>
-                    )}
-                  </div>
-                ))}
-                <button
-                  type="button"
-                  onClick={addImageUrl}
-                  className="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-red-600 bg-red-100 hover:bg-red-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500"
-                >
-                  Add Another Image
-                </button>
-              </div>
+              <label className="block text-sm font-medium text-gray-700 mb-2">
+                Image URLs
+              </label>
+              {imageUrls.map((url, index) => (
+                <div key={index} className="flex gap-2 mb-2">
+                  <input
+                    type="url"
+                    value={url}
+                    onChange={(e) => handleImageUrlChange(index, e.target.value)}
+                    placeholder="Enter image URL"
+                    className="flex-1 border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-red-500 focus:border-red-500"
+                  />
+                  {index > 0 && (
+                    <button
+                      type="button"
+                      onClick={() => removeImageUrl(index)}
+                      className="px-3 py-2 bg-red-100 text-red-600 rounded-md hover:bg-red-200"
+                    >
+                      Remove
+                    </button>
+                  )}
+                </div>
+              ))}
+              <button
+                type="button"
+                onClick={addImageUrl}
+                className="mt-2 text-sm text-red-600 hover:text-red-500"
+              >
+                + Add another image URL
+              </button>
             </div>
 
             <div className="flex justify-end">
               <button
                 type="submit"
                 disabled={isSubmitting}
-                className={`inline-flex items-center px-6 py-3 border border-transparent text-base font-medium rounded-md text-white bg-red-600 hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500 ${
+                className={`px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-red-600 hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500 ${
                   isSubmitting ? 'opacity-50 cursor-not-allowed' : ''
                 }`}
               >
